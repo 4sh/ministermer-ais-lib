@@ -204,6 +204,15 @@ public class SendRequest {
         this.talker = talker;
     }
 
+    /**
+     * Static method to generate hash from send request
+     *
+     * @return seq +sentenceStr id+dest
+     */
+    public String hash() {
+        return String.format("%d+%d+%d", sequence, aisMessage.getMsgId(), destination);
+    }
+
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();

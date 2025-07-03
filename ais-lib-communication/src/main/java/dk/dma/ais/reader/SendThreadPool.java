@@ -51,7 +51,7 @@ public class SendThreadPool {
      */
     public SendThread createSendThread(SendRequest sendRequest, Consumer<Abk> resultListener) {
         // Generate hash value that uniquely defines message
-        String hash = sendHash(sendRequest);
+        String hash = sendRequest.hash();
 
         // Create thread
         LOG.debug("Creating SendThread with hash: " + hash);
@@ -91,19 +91,6 @@ public class SendThreadPool {
         LOG.debug("Removing thread with hash: " + hash);
         threads.remove(hash);
         LOG.debug("Threads in pool: " + threads.size());
-    }
-
-    /**
-     * Static method to generate hash from send request
-     *
-     * @param sendRequest the send request
-     * @return seq +sentenceStr id+dest
-     */
-    public static String sendHash(SendRequest sendRequest) {
-        int seq = sendRequest.getSequence();
-        int msgId = sendRequest.getAisMessage().getMsgId();
-        int destination = sendRequest.getDestination();
-        return String.format("%d+%d+%d", seq, msgId, destination);
     }
 
     /**

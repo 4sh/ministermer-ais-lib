@@ -121,8 +121,8 @@ public class SendTextTest {
         }
 
         // Send
-        ClientSendThread clientSendThread = new ClientSendThread(aisReader, sendRequest);
-        Abk abk = clientSendThread.send();
+        ClientSendThread clientSendThread = new ClientSendThread(aisReader);
+        Abk abk = clientSendThread.send(sendRequest);
 
         // We are now guaranteed to have ABK
         System.out.println("ABK: " + abk);

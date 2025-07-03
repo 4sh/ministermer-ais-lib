@@ -63,4 +63,29 @@ public class SendAsmTest {
         aisReader.stopReader();
     }
 
+    // @Test
+    public void sendArbitraryData() throws InterruptedException, SendException {
+         String hostPort = "aistrans1.fomfrv.dk:4001";
+        // int destination = 219015063; // DAMSA1
+        // int destination = 992199007; // ais-frv-obo
+         int destination = 992199000;
+
+        // Make AisReader instance and start
+        AisReader aisReader = AisReaders.createReader(hostPort);
+        aisReader.start();
+        Thread.sleep(3000);
+        if (aisReader.getStatus() != Status.CONNECTED) {
+            Assert.fail("Could not connect to AIS source within 3 secs");
+        }
+
+        String message = "!AIABM,1,1,1,990219000,0,6,0200<b1,0*16";
+
+        // Send
+        Abk abk = aisReader.sendSentences(message);
+        // We are now guaranteed to have ABK
+        System.out.println("ABK: " + abk);
+        Assert.assertTrue(abk.isSuccess());
+        aisReader.stopReader();
+    }
+
 }

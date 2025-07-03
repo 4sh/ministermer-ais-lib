@@ -304,6 +304,20 @@ public abstract class AisReader extends Thread {
     /**
      * Blocking method to send message in an easy way
      *
+     * @param sentences the ais sentences
+     * @return abk abk
+     * @throws SendException        the send exception
+     * @throws InterruptedException the interrupted exception
+     */
+    public Abk sendSentences(String... sentences) throws SendException, InterruptedException {
+        SendRequest sendRequest = new StringSendRequest(sentences);
+        ClientSendThread clientSendThread = new ClientSendThread(this);
+        return clientSendThread.send(sendRequest);
+    }
+
+    /**
+     * Blocking method to send message in an easy way
+     *
      * @param aisMessage  the ais message
      * @param sequence    the sequence
      * @param destination the destination
@@ -315,8 +329,8 @@ public abstract class AisReader extends Thread {
     public Abk send(AisMessage aisMessage, int sequence, int destination, int timeout) throws SendException,
             InterruptedException {
         SendRequest sendRequest = new SendRequest(aisMessage, sequence, destination);
-        ClientSendThread clientSendThread = new ClientSendThread(this, sendRequest);
-        return clientSendThread.send();
+        ClientSendThread clientSendThread = new ClientSendThread(this);
+        return clientSendThread.send(sendRequest);
     }
 
     /**

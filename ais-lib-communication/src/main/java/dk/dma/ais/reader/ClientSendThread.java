@@ -24,7 +24,7 @@ import java.util.function.Consumer;
  * <p>
  * SendRequest sendRequest = new SendRequest(...);
  * <p>
- * ClientSendThread client = new ClientSendThread(aisReader, sendRequest); client.send();
+ * ClientSendThread client = new ClientSendThread(aisReader); client.send(sendRequest);
  * <p>
  * client.isSuccess();
  */
@@ -34,10 +34,6 @@ class ClientSendThread extends Thread implements Consumer<Abk> {
      * The Ais reader.
      */
     protected AisReader aisReader;
-    /**
-     * The Send request.
-     */
-    protected SendRequest sendRequest;
     /**
      * The Abk.
      */
@@ -54,22 +50,21 @@ class ClientSendThread extends Thread implements Consumer<Abk> {
     /**
      * Instantiates a new Client send thread.
      *
-     * @param aisReader   the ais reader
-     * @param sendRequest the send request
+     * @param aisReader the ais reader
      */
-    public ClientSendThread(AisReader aisReader, SendRequest sendRequest) {
+    public ClientSendThread(AisReader aisReader) {
         this.aisReader = aisReader;
-        this.sendRequest = sendRequest;
     }
 
     /**
      * Send abk.
      *
+     * @param sendRequest the send request
      * @return the abk
      * @throws SendException        the send exception
      * @throws InterruptedException the interrupted exception
      */
-    public Abk send() throws SendException, InterruptedException {
+    public Abk send(SendRequest sendRequest) throws SendException, InterruptedException {
         // Send message
         aisReader.send(sendRequest, this);
 
