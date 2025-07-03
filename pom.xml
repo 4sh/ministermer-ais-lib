@@ -40,58 +40,25 @@
     <profiles>
         <profile>
             <id>release</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.sonatype.central</groupId>
-                        <artifactId>central-publishing-maven-plugin</artifactId>
-                        <version>0.7.0</version>
-                        <extensions>true</extensions>
-                        <configuration>
-                            <publishingServerId>central</publishingServerId>
-                            <autoPublish>true</autoPublish>
-                            <waitUntil>published</waitUntil>
-                        </configuration>
-                    </plugin>
-
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-source-plugin</artifactId>
-                        <version>3.3.1</version>
-                        <executions>
-                            <execution>
-                                <id>attach-sources</id>
-                                <goals>
-                                    <goal>jar-no-fork</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-javadoc-plugin</artifactId>
-                        <version>3.10.1</version>
-                        <executions>
-                            <execution>
-                                <id>attach-javadocs</id>
-                                <goals>
-                                    <goal>jar</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                        <configuration>
-                            <additionalparam>-Xdoclint:none</additionalparam>
-                        </configuration>
-                    </plugin>
-
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-gpg-plugin</artifactId>
-                        <version>3.2.4</version>
-                    </plugin>
-                </plugins>
-            </build>
+            <activation>
+                <property>
+                    <name>performRelease</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <distributionManagement>
+                <snapshotRepository>
+                    <id>artifact-registry</id>
+                    <url>artifactregistry://europe-maven.pkg.dev/quatreapp/qsh-maven-public</url>
+                </snapshotRepository>
+                <repository>
+                    <id>artifact-registry</id>
+                    <url>artifactregistry://europe-maven.pkg.dev/quatreapp/qsh-maven-public</url>
+                </repository>
+            </distributionManagement>
+            <properties>
+                <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+            </properties>
         </profile>
         <profile>
             <id>doclint-java8-disable</id>
@@ -107,98 +74,88 @@
                             <additionalparam>-Xdoclint:none</additionalparam>
                         </configuration>
                     </plugin>
-                    <!--
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-gpg-plugin</artifactId>
-                        <version>3.1.0</version>
-                    </plugin>
-                    -->
-                    <!-- This plugin is used to check the vulnerabilities of the project -->
-                    <!--					<plugin>-->
-                        <!--						<groupId>org.owasp</groupId>-->
-                        <!--						<artifactId>dependency-check-maven</artifactId>-->
-                        <!--						<version>8.3.1</version>-->
-                        <!--						<executions>-->
-                            <!--							<execution>-->
-                                <!--								<goals>-->
-                                    <!--									<goal>check</goal>-->
-                                    <!--								</goals>-->
-                                    <!--							</execution>-->
-                                    <!--						</executions>-->
-                                    <!--					</plugin>-->
-                            </plugins>
-                        </build>
-                    </profile>
-                </profiles>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
-                <dependencies>
-                    <dependency>
-                        <groupId>org.slf4j</groupId>
-                        <artifactId>slf4j-api</artifactId>
-                        <version>1.7.32</version>
-                    </dependency>
+    <dependencies>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.32</version>
+        </dependency>
 
-                    <!-- Log4j 2 API -->
-                    <dependency>
-                        <groupId>org.apache.logging.log4j</groupId>
-                        <artifactId>log4j-api</artifactId>
-                        <version>2.20.0</version>
-                    </dependency>
+        <!-- Log4j 2 API -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>2.20.0</version>
+        </dependency>
 
-                    <!-- Log4j 2 Core -->
-                    <dependency>
-                        <groupId>org.apache.logging.log4j</groupId>
-                        <artifactId>log4j-core</artifactId>
-                        <version>2.20.0</version>
-                    </dependency>
+        <!-- Log4j 2 Core -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>2.20.0</version>
+        </dependency>
 
-                    <!-- SLF4J Binding for Log4j 2 -->
-                    <dependency>
-                        <groupId>org.apache.logging.log4j</groupId>
-                        <artifactId>log4j-slf4j-impl</artifactId>
-                        <version>2.20.0</version>
-                    </dependency>
+        <!-- SLF4J Binding for Log4j 2 -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j-impl</artifactId>
+            <version>2.20.0</version>
+        </dependency>
 
-                    <dependency>
-                        <groupId>net.jcip</groupId>
-                        <artifactId>jcip-annotations</artifactId>
-                        <version>1.0</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>dk.dma.enav</groupId>
-                        <artifactId>enav-model</artifactId>
-                        <version>${dependencies.enav.version}</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>dk.dma.commons</groupId>
-                        <artifactId>dma-commons-util</artifactId>
-                        <version>${dependencies.dma.commons.version}</version>
-                        <exclusions>
-                            <exclusion>
-                                <groupId>com.google.guava</groupId>
-                                <artifactId>guava</artifactId>
-                            </exclusion>
-                        </exclusions>
-                    </dependency>
-                    <dependency>
-                        <groupId>com.google.guava</groupId>
-                        <artifactId>guava</artifactId>
-                        <version>32.0.1-jre</version>
-                    </dependency>
-                </dependencies>
+        <dependency>
+            <groupId>net.jcip</groupId>
+            <artifactId>jcip-annotations</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>dk.dma.enav</groupId>
+            <artifactId>enav-model</artifactId>
+            <version>${dependencies.enav.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>dk.dma.commons</groupId>
+            <artifactId>dma-commons-util</artifactId>
+            <version>${dependencies.dma.commons.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.google.guava</groupId>
+                    <artifactId>guava</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>32.0.1-jre</version>
+        </dependency>
+    </dependencies>
 
-                <repositories>
-                    <repository>
-                        <id>oss.sonatype.org-snapshot</id>
-                        <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-                        <releases>
-                            <enabled>false</enabled>
-                        </releases>
-                        <snapshots>
-                            <enabled>true</enabled>
-                        </snapshots>
-                    </repository>
-                </repositories>
+    <repositories>
+        <repository>
+            <id>artifact-registry</id>
+            <url>artifactregistry://europe-maven.pkg.dev/quatreapp/qsh-maven-public</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
 
-            </project>
+    <build>
+        <extensions>
+            <extension>
+                <groupId>com.google.cloud.artifactregistry</groupId>
+                <artifactId>artifactregistry-maven-wagon</artifactId>
+                <version>2.2.5</version>
+            </extension>
+        </extensions>
+    </build>
+
+</project>
