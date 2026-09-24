@@ -49,11 +49,11 @@
             <distributionManagement>
                 <snapshotRepository>
                     <id>artifact-registry</id>
-                    <url>artifactregistry://europe-maven.pkg.dev/quatreapp/qsh-maven-public</url>
+                    <url>artifactregistry://europe-west9-maven.pkg.dev/quatreapp/qsh-maven-oss</url>
                 </snapshotRepository>
                 <repository>
                     <id>artifact-registry</id>
-                    <url>artifactregistry://europe-maven.pkg.dev/quatreapp/qsh-maven-public</url>
+                    <url>artifactregistry://europe-west9-maven.pkg.dev/quatreapp/qsh-maven-oss</url>
                 </repository>
             </distributionManagement>
             <properties>
@@ -138,7 +138,7 @@
     <repositories>
         <repository>
             <id>artifact-registry</id>
-            <url>artifactregistry://europe-maven.pkg.dev/quatreapp/qsh-maven-public</url>
+            <url>artifactregistry://europe-west9-maven.pkg.dev/quatreapp/qsh-maven-oss</url>
             <releases>
                 <enabled>true</enabled>
             </releases>
